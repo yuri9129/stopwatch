@@ -59,7 +59,7 @@ class Timer extends React.Component{
     const elapsed = now - start;
     let second = Math.floor(elapsed / 1000 % 60);
     let minute = Math.floor(elapsed / 1000 / 60 % 60);
-    let hour = Math.floor(elapsed / 1000 / 60 / 60);
+    let hour   = Math.floor(elapsed / 1000 / 60 / 60);
     let alert = false;
     if(elapsed >= this.state.limit * 1000){
       alert = true;
@@ -79,7 +79,8 @@ class Timer extends React.Component{
     clearInterval(this.state.intervalId);
 
     const nowPlayerId = this.state.playerId;
-    let nextPlayerId = (nowPlayerId + 1 >= playerList.length) ? 0 : nowPlayerId + 1;
+    let nextPlayerId = (nowPlayerId === null) ? 0
+      : ((nowPlayerId + 1 >= playerList.length) ? 0 : nowPlayerId + 1);
     let intervalId = setInterval(() => {
       this.update();
     }, 1000);
@@ -112,12 +113,13 @@ class Timer extends React.Component{
         <div>
           {this.state.playerId !== null ? playerList[this.state.playerId] : '-'}
         </div>
-        <div>
+        <div className="timer_div">
           <button
-            className={className}
+            className={"timer_button " + className}
             onClick={() => this.handleChange()}
           >
-            {this.state.time.hour}:{this.state.time.minute}:{this.state.time.second}
+            {/*{this.state.time.hour}:{this.state.time.minute}:{this.state.time.second}*/}
+            {this.state.time.minute.toString().padStart(2, 0)}:{this.state.time.second.toString().padStart(2, 0)}
           </button>
         </div>
         <Buttons
@@ -137,7 +139,7 @@ class Buttons extends React.Component{
   render(){
     return (
       <div>
-        <button onClick={() => this.props.onClickStart()}>START</button>
+        {/*<button onClick={() => this.props.onClickStart()}>START</button>*/}
         <button onClick={() => this.props.onClickStop()}>Stop</button>
       </div>
     );
